@@ -776,7 +776,7 @@ def parse(json_string):
   except Exception, e:
     import sys
     raise SchemaParseException('Error parsing JSON: %s, error = %s'
-                               % (json_string, e)), None, sys.exc_info()[2]
+                               % (json_string, e)) #, None, sys.exc_info()[2]
 
   # Initialize the names object
   names = Names()
