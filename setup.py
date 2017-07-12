@@ -15,6 +15,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# Modifications copyright (C) 2017 Common Workflow Langauge.
 try:
   from setuptools import setup
 except ImportError:
@@ -28,7 +29,7 @@ if version_info[:2] <= (2, 5):
 AVRO_VERSION = '1.8.3'
 
 setup(
-  name = 'avro',
+  name = 'avro-cwl',
   version = AVRO_VERSION,
   packages = ['avro',],
   package_dir = {'avro': 'src/avro'},
@@ -42,12 +43,10 @@ setup(
   install_requires = install_requires,
 
   # metadata for upload to PyPI
-  author = 'Apache Avro',
-  author_email = 'dev@avro.apache.org',
+  author = 'Common Workflow Langauge',
   description = 'Avro is a serialization and RPC framework.',
   license = 'Apache License 2.0',
   keywords = 'avro serialization rpc',
-  url = 'http://avro.apache.org/',
   extras_require = {
     'snappy': ['python-snappy'],
   },
