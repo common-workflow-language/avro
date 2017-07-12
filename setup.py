@@ -25,9 +25,11 @@ install_requires = []
 if version_info[:2] <= (2, 5):
     install_requires.append('simplejson >= 2.0.9')
 
+AVRO_VERSION = '1.8.2'
+
 setup(
   name = 'avro',
-  version = '@AVRO_VERSION@',
+  version = AVRO_VERSION,
   packages = ['avro',],
   package_dir = {'avro': 'src/avro'},
   scripts = ["./scripts/avro"],
