@@ -25,7 +25,7 @@ install_requires = []
 if version_info[:2] <= (2, 5):
     install_requires.append('simplejson >= 2.0.9')
 
-AVRO_VERSION = '1.8.2'
+AVRO_VERSION = '1.8.3'
 
 setup(
   name = 'avro',
