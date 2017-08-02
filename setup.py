@@ -50,4 +50,5 @@ setup(
   extras_require = {
     'snappy': ['python-snappy'],
   },
+  zip_safe=False,
 )
