@@ -21,10 +21,7 @@ from builtins import str
 import unittest
 import csv
 from io import StringIO
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import json
 from tempfile import NamedTemporaryFile
 import avro.schema
 from avro.io import DatumWriter

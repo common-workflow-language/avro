@@ -21,10 +21,7 @@ from avro.io import DatumReader, DatumWriter
 from avro.datafile import DataFileReader, DataFileWriter
 import avro.schema
 
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import json
 import csv
 from sys import stdout, stdin
 from itertools import ifilter, imap
