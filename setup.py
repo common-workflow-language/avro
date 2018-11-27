@@ -22,7 +22,7 @@ except ImportError:
   from distutils.core import setup
 from sys import version_info
 
-AVRO_VERSION = '1.8.8'
+AVRO_VERSION = '1.8.9'
 
 setup(
   name = 'avro-cwl',
@@ -38,6 +38,7 @@ setup(
   description = 'Avro is a serialization and RPC framework.',
   license = 'Apache License 2.0',
   keywords = 'avro serialization rpc',
+  install_requires = [ 'future' ],
   extras_require = {
     'snappy': ['python-snappy'],
   },
