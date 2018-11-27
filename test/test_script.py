@@ -13,9 +13,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from future import standard_library
+standard_library.install_aliases()
+from builtins import next
+from builtins import map
+from builtins import str
 import unittest
 import csv
-from cStringIO import StringIO
+from io import StringIO
 try:
     import json
 except ImportError:
@@ -204,7 +209,7 @@ class TestWrite(unittest.TestCase):
 
     def load_avro(self, filename):
         out = check_output([SCRIPT, "cat", filename])
-        return map(json.loads, out.splitlines())
+        return list(map(json.loads, out.splitlines()))
 
     def test_version(self):
         check_call([SCRIPT, "write", "--version"])

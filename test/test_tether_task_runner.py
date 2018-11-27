@@ -15,6 +15,9 @@ from __future__ import print_function
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import os
 import subprocess
 import sys
@@ -34,7 +37,7 @@ class TestTetherTaskRunner(unittest.TestCase):
     from avro import io as avio
     import mock_tether_parent
     import subprocess
-    import StringIO
+    import io
     import logging
 
     # set the logging level to debug so that debug messages are printed
@@ -72,7 +75,7 @@ class TestTetherTaskRunner(unittest.TestCase):
 
       # Serialize some data so we can send it to the input function
       datum="This is a line of text"
-      writer = StringIO.StringIO()
+      writer = io.StringIO()
       encoder = avio.BinaryEncoder(writer)
       datum_writer = avio.DatumWriter(runner.task.inschema)
       datum_writer.write(datum, encoder)
@@ -89,7 +92,7 @@ class TestTetherTaskRunner(unittest.TestCase):
 
       #Serialize some data so we can send it to the input function
       datum={"key":"word","value":2}
-      writer = StringIO.StringIO()
+      writer = io.StringIO()
       encoder = avio.BinaryEncoder(writer)
       datum_writer = avio.DatumWriter(runner.task.midschema)
       datum_writer.write(datum, encoder)
@@ -140,7 +143,7 @@ class TestTetherTaskRunner(unittest.TestCase):
     from avro import io as avio
     import mock_tether_parent
     import subprocess
-    import StringIO
+    import io
 
 
     proc=None

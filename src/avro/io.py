@@ -36,6 +36,11 @@ uses the following mapping:
   * Schema doubles are implemented as float.
   * Schema booleans are implemented as bool. 
 """
+from builtins import chr
+from builtins import str
+from builtins import range
+from past.builtins import basestring
+from builtins import object
 import struct
 from avro import schema
 import sys
@@ -110,13 +115,13 @@ def validate(expected_schema, datum):
   elif schema_type == 'bytes':
     return isinstance(datum, str)
   elif schema_type == 'int':
-    return ((isinstance(datum, int) or isinstance(datum, long)) 
+    return ((isinstance(datum, int) or isinstance(datum, int)) 
             and INT_MIN_VALUE <= datum <= INT_MAX_VALUE)
   elif schema_type == 'long':
-    return ((isinstance(datum, int) or isinstance(datum, long)) 
+    return ((isinstance(datum, int) or isinstance(datum, int)) 
             and LONG_MIN_VALUE <= datum <= LONG_MAX_VALUE)
   elif schema_type in ['float', 'double']:
-    return (isinstance(datum, int) or isinstance(datum, long)
+    return (isinstance(datum, int) or isinstance(datum, int)
             or isinstance(datum, float))
   elif schema_type == 'fixed':
     return isinstance(datum, str) and len(datum) == expected_schema.size
@@ -127,9 +132,9 @@ def validate(expected_schema, datum):
       False not in [validate(expected_schema.items, d) for d in datum])
   elif schema_type == 'map':
     return (isinstance(datum, dict) and
-      False not in [isinstance(k, basestring) for k in datum.keys()] and
+      False not in [isinstance(k, basestring) for k in list(datum.keys())] and
       False not in
-        [validate(expected_schema.values, v) for v in datum.values()])
+        [validate(expected_schema.values, v) for v in list(datum.values())])
   elif schema_type in ['union', 'error_union']:
     return True in [validate(s, datum) for s in expected_schema.schemas]
   elif schema_type in ['record', 'error', 'request']:
@@ -230,7 +235,7 @@ class BinaryDecoder(object):
     A string is encoded as a long followed by
     that many bytes of UTF-8 encoded character data.
     """
-    return unicode(self.read_bytes(), "utf-8")
+    return str(self.read_bytes(), "utf-8")
 
   def check_crc32(self, bytes):
     checksum = STRUCT_CRC32.unpack(self.read(4))[0];
@@ -695,7 +700,7 @@ class DatumReader(object):
     # fill in default values
     if len(readers_fields_dict) > len(read_record):
       writers_fields_dict = writers_schema.fields_dict
-      for field_name, field in readers_fields_dict.items():
+      for field_name, field in list(readers_fields_dict.items()):
         if field_name not in writers_fields_dict:
           if field.has_default:
             field_val = self._read_default_value(field.type, field.default)
@@ -721,7 +726,7 @@ class DatumReader(object):
     elif field_schema.type == 'int':
       return int(default_value)
     elif field_schema.type == 'long':
-      return long(default_value)
+      return int(default_value)
     elif field_schema.type in ['float', 'double']:
       return float(default_value)
     elif field_schema.type in ['enum', 'fixed', 'string', 'bytes']:
@@ -734,7 +739,7 @@ class DatumReader(object):
       return read_array
     elif field_schema.type == 'map':
       read_map = {}
-      for key, json_val in default_value.items():
+      for key, json_val in list(default_value.items()):
         map_val = self._read_default_value(field_schema.values, json_val)
         read_map[key] = map_val
       return read_map
@@ -857,7 +862,7 @@ class DatumWriter(object):
     """
     if len(datum) > 0:
       encoder.write_long(len(datum))
-      for key, val in datum.items():
+      for key, val in list(datum.items()):
         encoder.write_utf8(key)
         self.write_data(writers_schema.values, val, encoder)
     encoder.write_long(0)

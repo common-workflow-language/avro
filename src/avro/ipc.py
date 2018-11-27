@@ -16,11 +16,15 @@
 """
 Support for inter-process calls.
 """
-import httplib
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import object
+import http.client
 try:
-  from cStringIO import StringIO
+  from io import StringIO
 except ImportError:
-  from StringIO import StringIO
+  from io import StringIO
 from avro import io
 from avro import protocol
 from avro import schema
@@ -441,7 +445,7 @@ class HTTPTransceiver(object):
   """
   def __init__(self, host, port, req_resource='/'):
     self.req_resource = req_resource
-    self.conn = httplib.HTTPConnection(host, port)
+    self.conn = http.client.HTTPConnection(host, port)
     self.conn.connect()
 
   # read-only properties

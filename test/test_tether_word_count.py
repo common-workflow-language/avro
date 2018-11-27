@@ -15,6 +15,9 @@ from __future__ import print_function
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import range
 import inspect
 import subprocess
 import sys
@@ -92,7 +95,7 @@ class TestTetherWordCount(unittest.TestCase):
     import avro
 
     import subprocess
-    import StringIO
+    import io
     import shutil
     import tempfile
     import inspect

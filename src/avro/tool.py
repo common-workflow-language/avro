@@ -20,9 +20,12 @@ Command-line tool
 NOTE: The API for the command-line tool is experimental.
 """
 from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+from builtins import next
 import sys
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
-import urlparse
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import urllib.parse
 from avro import io
 from avro import datafile
 from avro import protocol
@@ -76,7 +79,7 @@ class StoppableHTTPServer(HTTPServer):
     self.serve_forever()
 
 def run_server(uri, proto, msg, datum):
-  url_obj = urlparse.urlparse(uri)
+  url_obj = urllib.parse.urlparse(uri)
   server_addr = (url_obj.hostname, url_obj.port)
   global responder
   global server_should_shutdown
@@ -90,7 +93,7 @@ def run_server(uri, proto, msg, datum):
   server.serve_forever()
 
 def send_message(uri, proto, msg, datum):
-  url_obj = urlparse.urlparse(uri)
+  url_obj = urllib.parse.urlparse(uri)
   client = ipc.HTTPTransceiver(url_obj.hostname, url_obj.port)
   proto_json = file(proto, 'r').read()
   requestor = ipc.Requestor(protocol.parse(proto_json), client)

@@ -17,6 +17,8 @@
 Test the schema parsing logic.
 """
 from __future__ import print_function
+from builtins import str
+from builtins import object
 import unittest
 import set_avro_test_path
 

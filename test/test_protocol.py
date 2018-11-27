@@ -17,6 +17,8 @@
 Test the protocol parsing logic.
 """
 from __future__ import print_function
+from builtins import str
+from builtins import object
 import unittest
 from avro import protocol
 

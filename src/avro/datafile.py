@@ -16,11 +16,17 @@
 """
 Read/Write Avro File Object Containers.
 """
+from future import standard_library
+standard_library.install_aliases()
+from builtins import chr
+from builtins import str
+from builtins import range
+from builtins import object
 import zlib
 try:
-  from cStringIO import StringIO
+  from io import StringIO
 except ImportError:
-  from StringIO import StringIO
+  from io import StringIO
 from avro import schema
 from avro import io
 try:
@@ -348,7 +354,7 @@ class DataFileReader(object):
 
   # TODO(hammer): handle block of length zero
   # TODO(hammer): clean this up with recursion
-  def next(self):
+  def __next__(self):
     """Return the next datum in the file."""
     if self.block_count == 0:
       if self.is_EOF():

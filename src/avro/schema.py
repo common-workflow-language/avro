@@ -34,6 +34,9 @@ A schema may be one of:
   A boolean; or
   Null.
 """
+from builtins import str
+from past.builtins import basestring
+from builtins import object
 try:
   import json
 except ImportError:
@@ -489,7 +492,7 @@ class ArraySchema(Schema):
       try:
         items_schema = make_avsc_object(items, names)
       except SchemaParseException as e:
-        fail_msg = 'Items schema (%s) not a valid Avro schema: %s (known names: %s)' % (items, e, names.names.keys())
+        fail_msg = 'Items schema (%s) not a valid Avro schema: %s (known names: %s)' % (items, e, list(names.names.keys()))
         raise SchemaParseException(fail_msg)
 
     self.set_prop('items', items_schema)
@@ -706,7 +709,7 @@ def get_other_props(all_props,reserved_props):
   @args reserved_props: The set of reserved properties to exclude
   """
   if hasattr(all_props, 'items') and callable(all_props.items):
-    return dict([(k,v) for (k,v) in all_props.items() if k not in
+    return dict([(k,v) for (k,v) in list(all_props.items()) if k not in
                  reserved_props ])
 
 

@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import print_function
+from builtins import range
 import sys
 
 from twisted.internet import reactor, defer

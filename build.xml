@@ -22,10 +22,10 @@
   <property file="${user.home}/build.properties"/>
 
   <!-- Shared directories -->
-  <property name="share.dir" value="${basedir}/../../share"/>
+  <property name="share.dir" value="${basedir}/share"/>
   <property name="share.schema.dir" value="${share.dir}/schemas/"/>
-  <property name="dist.dir" value="${basedir}/../../dist/py"/>
-  <property name="top.build" value="${basedir}/../../build"/>
+  <property name="dist.dir" value="${basedir}/dist/py"/>
+  <property name="top.build" value="${basedir}/build"/>
   <property name="interop.data.dir" value="${top.build}/interop/data"/>
 
   <property name="python" value="python"/>

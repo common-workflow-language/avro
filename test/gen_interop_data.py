@@ -15,6 +15,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from builtins import str
 import sys
 from avro import schema
 from avro import io
@@ -23,7 +24,7 @@ from avro import datafile
 DATUM = {
   'intField': 12,
   'longField': 15234324,
-  'stringField': unicode('hey'),
+  'stringField': str('hey'),
   'boolField': True,
   'floatField': 1234.0,
   'doubleField': -1234.0,

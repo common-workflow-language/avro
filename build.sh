@@ -31,7 +31,7 @@ if [ -f VERSION.txt ]
 then
   VERSION=`cat VERSION.txt`
 else
-  VERSION=`cat ../../share/VERSION.txt`
+  VERSION=`cat share/VERSION.txt`
 fi
 
 for target in "$@"

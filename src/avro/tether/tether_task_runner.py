@@ -17,6 +17,9 @@
 """
 from __future__ import print_function
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 __all__=["TaskRunner"]
 
 if __name__ == "__main__":
@@ -28,7 +31,7 @@ else:
   from . import TetherTask, find_port, inputProtocol
 
 from avro import ipc
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import logging
 import weakref
 import threading
