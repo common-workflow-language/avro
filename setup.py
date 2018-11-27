@@ -22,11 +22,7 @@ except ImportError:
   from distutils.core import setup
 from sys import version_info
 
-install_requires = []
-if version_info[:2] <= (2, 5):
-    install_requires.append('simplejson >= 2.0.9')
-
-AVRO_VERSION = '1.8.4'
+AVRO_VERSION = '1.8.9'
 
 setup(
   name = 'avro-cwl',
@@ -35,18 +31,14 @@ setup(
   package_dir = {'avro': 'src/avro'},
   scripts = ["./scripts/avro"],
 
-  #include_package_data=True,
   package_data={'avro': ['LICENSE', 'NOTICE']},
-
-  # Project uses simplejson, so ensure that it gets installed or upgraded
-  # on the target machine
-  install_requires = install_requires,
 
   # metadata for upload to PyPI
   author = 'Common Workflow Langauge',
   description = 'Avro is a serialization and RPC framework.',
   license = 'Apache License 2.0',
   keywords = 'avro serialization rpc',
+  install_requires = [ 'future' ],
   extras_require = {
     'snappy': ['python-snappy'],
   },

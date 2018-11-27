@@ -34,10 +34,10 @@ A schema may be one of:
   A boolean; or
   Null.
 """
-try:
-  import json
-except ImportError:
-  import simplejson as json
+from builtins import str
+from past.builtins import basestring
+from builtins import object
+import json
 
 #
 # Constants
@@ -228,11 +228,11 @@ class Names(object):
       
   def has_name(self, name_attr, space_attr):
       test = Name(name_attr, space_attr, self.default_namespace).fullname
-      return self.names.has_key(test)
+      return test in self.names
   
   def get_name(self, name_attr, space_attr):    
       test = Name(name_attr, space_attr, self.default_namespace).fullname
-      if not self.names.has_key(test):
+      if test not in self.names:
           return None
       return self.names[test]
   
@@ -267,7 +267,7 @@ class Names(object):
     if to_add.fullname in VALID_TYPES:
       fail_msg = '%s is a reserved type name.' % to_add.fullname
       raise SchemaParseException(fail_msg)
-    elif self.names.has_key(to_add.fullname):
+    elif to_add.fullname in self.names:
       fail_msg = 'The name "%s" is already in use.' % to_add.fullname
       raise SchemaParseException(fail_msg)
 
@@ -338,7 +338,7 @@ class Field(object):
     else:
       try:
         type_schema = make_avsc_object(type, names)
-      except Exception, e:
+      except Exception as e:
         fail_msg = 'Type property "%s" not a valid Avro schema: %s' % (type, e)
         raise SchemaParseException(fail_msg)
     self.set_prop('type', type_schema)
@@ -488,8 +488,8 @@ class ArraySchema(Schema):
     else:
       try:
         items_schema = make_avsc_object(items, names)
-      except SchemaParseException, e:
-        fail_msg = 'Items schema (%s) not a valid Avro schema: %s (known names: %s)' % (items, e, names.names.keys())
+      except SchemaParseException as e:
+        fail_msg = 'Items schema (%s) not a valid Avro schema: %s (known names: %s)' % (items, e, list(names.names.keys()))
         raise SchemaParseException(fail_msg)
 
     self.set_prop('items', items_schema)
@@ -561,7 +561,7 @@ class UnionSchema(Schema):
       else:
         try:
           new_schema = make_avsc_object(schema, names)
-        except Exception, e:
+        except Exception as e:
           raise SchemaParseException('Union item must be a valid Avro schema: %s' % str(e))
       # check the new schema
       if (new_schema.type in VALID_TYPES and new_schema.type not in NAMED_TYPES
@@ -617,7 +617,7 @@ class RecordSchema(NamedSchema):
         # null values can have a default value of None
         has_default = False
         default = None
-        if field.has_key('default'):
+        if 'default' in field:
           has_default = True
           default = field.get('default')
 
@@ -706,7 +706,7 @@ def get_other_props(all_props,reserved_props):
   @args reserved_props: The set of reserved properties to exclude
   """
   if hasattr(all_props, 'items') and callable(all_props.items):
-    return dict([(k,v) for (k,v) in all_props.items() if k not in
+    return dict([(k,v) for (k,v) in list(all_props.items()) if k not in
                  reserved_props ])
 
 
@@ -774,7 +774,7 @@ def parse(json_string):
   # parse the JSON
   try:
     json_data = json.loads(json_string)
-  except Exception, e:
+  except Exception as e:
     import sys
     raise SchemaParseException('Error parsing JSON: %s, error = %s'
                                % (json_string, e)) #, None, sys.exc_info()[2]

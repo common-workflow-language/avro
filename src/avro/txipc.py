@@ -15,10 +15,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from __future__ import division
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
+from past.utils import old_div
 try:
-  from cStringIO import StringIO
+  from io import StringIO
 except ImportError:
-  from StringIO import StringIO
+  from io import StringIO
 from avro import ipc
 from avro import io
 
@@ -61,7 +66,7 @@ class RequestStreamingProducer(object):
     self._length = len(message)
     # We need a buffer length header for every buffer and an additional
     # zero-length buffer as the message terminator
-    self._length += (self._length / ipc.BUFFER_SIZE + 2) \
+    self._length += (old_div(self._length, ipc.BUFFER_SIZE) + 2) \
       * ipc.BUFFER_HEADER_LENGTH
     self._total_bytes_sent = 0
     self._deferred = Deferred()

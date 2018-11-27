@@ -1,3 +1,5 @@
+This is a fork of Apache Avro for Python 3 by the CWL project.
+
 Apache Avro™ is a data serialization system.
 
 Learn more about Avro, please visit our website at:

@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -14,6 +15,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import os
 import subprocess
 import sys
@@ -33,7 +37,7 @@ class TestTetherTaskRunner(unittest.TestCase):
     from avro import io as avio
     import mock_tether_parent
     import subprocess
-    import StringIO
+    import io
     import logging
 
     # set the logging level to debug so that debug messages are printed
@@ -50,7 +54,7 @@ class TestTetherTaskRunner(unittest.TestCase):
       proc=subprocess.Popen(["python", pyfile,"start_server","{0}".format(parent_port)])
       input_port=find_port()
 
-      print "Mock server started process pid={0}".format(proc.pid)
+      print("Mock server started process pid={0}".format(proc.pid))
       # Possible race condition? open tries to connect to the subprocess before the subprocess is fully started
       # so we give the subprocess time to start up
       time.sleep(1)
@@ -71,7 +75,7 @@ class TestTetherTaskRunner(unittest.TestCase):
 
       # Serialize some data so we can send it to the input function
       datum="This is a line of text"
-      writer = StringIO.StringIO()
+      writer = io.StringIO()
       encoder = avio.BinaryEncoder(writer)
       datum_writer = avio.DatumWriter(runner.task.inschema)
       datum_writer.write(datum, encoder)
@@ -88,7 +92,7 @@ class TestTetherTaskRunner(unittest.TestCase):
 
       #Serialize some data so we can send it to the input function
       datum={"key":"word","value":2}
-      writer = StringIO.StringIO()
+      writer = io.StringIO()
       encoder = avio.BinaryEncoder(writer)
       datum_writer = avio.DatumWriter(runner.task.midschema)
       datum_writer.write(datum, encoder)
@@ -139,7 +143,7 @@ class TestTetherTaskRunner(unittest.TestCase):
     from avro import io as avio
     import mock_tether_parent
     import subprocess
-    import StringIO
+    import io
 
 
     proc=None
@@ -171,7 +175,7 @@ class TestTetherTaskRunner(unittest.TestCase):
 
 
 
-      print "Mock server started process pid={0}".format(proc.pid)
+      print("Mock server started process pid={0}".format(proc.pid))
       #Possible race condition? open tries to connect to the subprocess before the subprocess is fully started
       #so we give the subprocess time to start up
       time.sleep(1)

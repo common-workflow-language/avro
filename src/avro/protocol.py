@@ -16,14 +16,14 @@
 """
 Protocol implementation.
 """
+from builtins import str
+from past.builtins import basestring
+from builtins import object
 try:
   from hashlib import md5
 except ImportError:
   from md5 import md5
-try:
-  import json
-except ImportError:
-  import simplejson as json
+import json
 from avro import schema
 
 #
@@ -58,8 +58,8 @@ class Protocol(object):
 
   def _parse_messages(self, messages, names):
     message_objects = {}
-    for name, body in messages.iteritems():
-      if message_objects.has_key(name):
+    for name, body in messages.items():
+      if name in message_objects:
         fail_msg = 'Message name "%s" repeated.' % name
         raise ProtocolParseException(fail_msg)
       elif not(hasattr(body, 'get') and callable(body.get)):
@@ -130,7 +130,7 @@ class Protocol(object):
       to_dump['types'] = [ t.to_json(names) for t in self.types ]
     if self.messages:
       messages_dict = {}
-      for name, body in self.messages.iteritems():
+      for name, body in self.messages.items():
         messages_dict[name] = body.to_json(names)
       to_dump['messages'] = messages_dict
     return to_dump

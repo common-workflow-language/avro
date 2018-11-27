@@ -13,13 +13,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from future import standard_library
+standard_library.install_aliases()
+from builtins import next
+from builtins import map
+from builtins import str
 import unittest
 import csv
-from cStringIO import StringIO
-try:
-    import json
-except ImportError:
-    import simplejson as json
+from io import StringIO
+import json
 from tempfile import NamedTemporaryFile
 import avro.schema
 from avro.io import DatumWriter
@@ -204,7 +206,7 @@ class TestWrite(unittest.TestCase):
 
     def load_avro(self, filename):
         out = check_output([SCRIPT, "cat", filename])
-        return map(json.loads, out.splitlines())
+        return list(map(json.loads, out.splitlines()))
 
     def test_version(self):
         check_call([SCRIPT, "write", "--version"])

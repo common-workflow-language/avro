@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -16,6 +17,9 @@
 
 
 
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
 import os
 import subprocess
 import sys
@@ -38,7 +42,7 @@ class TestTetherTask(unittest.TestCase):
     from avro import schema
     from avro.tether import HTTPRequestor,inputProtocol, find_port
 
-    import StringIO
+    import io
     import mock_tether_parent
     from word_count_task import WordCountTask
 
@@ -56,7 +60,7 @@ class TestTetherTask(unittest.TestCase):
       proc=subprocess.Popen(["python", pyfile,"start_server","{0}".format(server_port)])
       input_port=find_port()
 
-      print "Mock server started process pid={0}".format(proc.pid)
+      print("Mock server started process pid={0}".format(proc.pid))
       # Possible race condition? open tries to connect to the subprocess before the subprocess is fully started
       # so we give the subprocess time to start up
       time.sleep(1)
@@ -71,7 +75,7 @@ class TestTetherTask(unittest.TestCase):
 
       # Serialize some data so we can send it to the input function
       datum="This is a line of text"
-      writer = StringIO.StringIO()
+      writer = io.StringIO()
       encoder = avio.BinaryEncoder(writer)
       datum_writer = avio.DatumWriter(task.inschema)
       datum_writer.write(datum, encoder)
@@ -87,7 +91,7 @@ class TestTetherTask(unittest.TestCase):
 
       # Serialize some data so we can send it to the input function
       datum={"key":"word","value":2}
-      writer = StringIO.StringIO()
+      writer = io.StringIO()
       encoder = avio.BinaryEncoder(writer)
       datum_writer = avio.DatumWriter(task.midschema)
       datum_writer.write(datum, encoder)
