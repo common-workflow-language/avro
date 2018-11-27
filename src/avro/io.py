@@ -46,10 +46,7 @@ from avro import schema
 import sys
 from binascii import crc32
 
-try:
-	import json
-except ImportError:
-	import simplejson as json
+import json
 
 #
 # Constants

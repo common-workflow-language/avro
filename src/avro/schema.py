@@ -37,10 +37,7 @@ A schema may be one of:
 from builtins import str
 from past.builtins import basestring
 from builtins import object
-try:
-  import json
-except ImportError:
-  import simplejson as json
+import json
 
 #
 # Constants
