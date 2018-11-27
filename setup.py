@@ -22,9 +22,9 @@ except ImportError:
   from distutils.core import setup
 from sys import version_info
 
-install_requires = ['simplejson >= 3.16.0']
+install_requires = []
 
-AVRO_VERSION = '1.8.6'
+AVRO_VERSION = '1.8.7'
 
 setup(
   name = 'avro-cwl',
